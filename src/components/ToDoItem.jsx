@@ -47,6 +47,7 @@ const ToDoItem = ({ id }) => {
             value={color}
             onChange={handleColorChanged}
           >
+            <option/>
             {colorOptions}
           </select>
           <button

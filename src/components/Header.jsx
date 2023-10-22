@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { saveNewTodo } from "../ReducerSlices/todoSlice";
@@ -19,19 +18,24 @@ const Header = () => {
       SetStatus("Idle");
     }
   };
+  let isLoading = status === "Loading";
+  let placeholder = isLoading ? "" : "What need to be Done ?";
+  let loader = isLoading ? <div className="loader flex flex-col" /> : null;
   return (
     <div>
       <div className="flex items-center justify-center">
         <input
           type="text"
-          placeholder="What You want Done ?"
+          placeholder={placeholder}
           value={text}
           onChange={handleChange}
           autoFocus={true}
+          disabled={isLoading}
           onKeyDown={handleKeyDown}
           className="w-[500px] p-4 text-lg shadow-lg outline-none bg-Vanilla placeholder:text-Dark_Blue rounded-lg placeholder:text-lg"
         />
       </div>
+      {loader}
     </div>
   );
 };
