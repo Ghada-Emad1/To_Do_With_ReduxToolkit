@@ -1,0 +1,44 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { StatusFilters } from "../utils/StatusFilters";
+
+const initialState = {
+  status: StatusFilters.All,
+  colors: [],
+};
+const filterSlice = createSlice({
+  name: "filters",
+  initialState,
+  reducers: {
+    statusFilterChanged(state, action) {
+      state.status = action.payload;
+    },
+    colorFilterChanged: {
+      reducer(state, action) {
+        let { color, changeType } = action.payload;
+        const { colors } = state;
+        switch (changeType) {
+          case "added": {
+            if (!colors.includes(color)) {
+              colors.push(color);
+            }
+            break;
+          }
+          case "removed": {
+            state.colors = colors.filter(
+              (existingColor) => existingColor !== color,
+            );
+          }
+          default:
+            return
+        }
+      },
+      prepare(color,changeType){
+        return{
+            payload:{color,changeType}
+        }
+      }
+    },
+  },
+});
+export const {colorFilterChanged,statusFilterChanged}=filterSlice.actions
+export default filterSlice.reducer;
